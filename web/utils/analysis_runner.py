@@ -369,9 +369,11 @@ def run_stock_analysis(stock_symbol, analysis_date, analysts, research_depth, ll
             logger.info(f"🌐 [SiliconFlow] API端点: https://api.siliconflow.cn/v1")
         elif llm_provider == "custom_openai":
             # 自定义OpenAI端点
-            custom_base_url = st.session_state.get("custom_openai_base_url", "https://api.openai.com/v1")
+            custom_base_url = os.getenv('CUSTOM_OPENAI_API_URL', 'https://api-inference.modelscope.cn/v1')
             config["backend_url"] = custom_base_url
             config["custom_openai_base_url"] = custom_base_url
+            config["deep_think_llm"] = os.getenv('CUSTOM_OPENAI_DEEP_LLM', 'deepseek-ai/DeepSeek-V3.1')
+            config["quick_think_llm"] = os.getenv('CUSTOM_OPENAI_QUICK_LLM', 'deepseek-ai/DeepSeek-V3.1')
             logger.info(f"🔧 [自定义OpenAI] 使用模型: {llm_model}")
             logger.info(f"🔧 [自定义OpenAI] API端点: {custom_base_url}")
 
